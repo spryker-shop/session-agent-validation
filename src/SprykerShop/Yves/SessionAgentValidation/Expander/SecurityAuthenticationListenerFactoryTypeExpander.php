@@ -27,7 +27,7 @@ class SecurityAuthenticationListenerFactoryTypeExpander implements SecurityAuthe
     /**
      * @param array<string> $authenticationListenerFactoryTypes
      *
-     * @return list<string>
+     * @return array<string>
      */
     public function expand(array $authenticationListenerFactoryTypes): array
     {
