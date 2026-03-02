@@ -35,9 +35,6 @@ class UpdateAgentSessionAfterCustomerAuthenticationSuccessPluginTest extends Uni
      */
     protected SessionAgentValidationYvesTester $tester;
 
-    /**
-     * @return void
-     */
     public function testExecuteShouldNotUpdateSessionAgentDataWhenAuthorizationIsNotGranted(): void
     {
         // Arrange
@@ -58,9 +55,6 @@ class UpdateAgentSessionAfterCustomerAuthenticationSuccessPluginTest extends Uni
         $updateAgentSessionAfterCustomerAuthenticationSuccessPlugin->execute();
     }
 
-    /**
-     * @return void
-     */
     public function testExecuteShouldNotUpdateSessionAgentDataWhenAgentIsNotLoggedIn(): void
     {
         // Arrange
@@ -82,9 +76,6 @@ class UpdateAgentSessionAfterCustomerAuthenticationSuccessPluginTest extends Uni
         $updateAgentSessionAfterCustomerAuthenticationSuccessPlugin->execute();
     }
 
-    /**
-     * @return void
-     */
     public function testExecuteShouldUpdateSessionAgentDataWhenAuthorizationIsGrantedAndAgentIsLoggedIn(): void
     {
         // Arrange

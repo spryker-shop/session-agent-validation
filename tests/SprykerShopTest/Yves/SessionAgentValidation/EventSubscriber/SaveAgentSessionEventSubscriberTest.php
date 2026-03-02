@@ -51,9 +51,6 @@ class SaveAgentSessionEventSubscriberTest extends Unit
      */
     protected SessionAgentValidationYvesTester $tester;
 
-    /**
-     * @return void
-     */
     public function testGetSubscribedEventsShouldReturnEvents(): void
     {
         // Act
@@ -72,9 +69,6 @@ class SaveAgentSessionEventSubscriberTest extends Unit
         $this->assertArrayHasKey(LoginSuccessEvent::class, $subscribedEvents);
     }
 
-    /**
-     * @return void
-     */
     public function testOnInteractiveLoginShouldNotSaveSessionAgentDataWhenRequestDoesNotHaveSession(): void
     {
         // Arrange
@@ -97,9 +91,6 @@ class SaveAgentSessionEventSubscriberTest extends Unit
         $saveAgentSessionEventSubscriber->onInteractiveLogin($event);
     }
 
-    /**
-     * @return void
-     */
     public function testOnInteractiveLoginShouldNotSaveSessionAgentDataWhenUserIsNotSet(): void
     {
         // Arrange
@@ -122,9 +113,6 @@ class SaveAgentSessionEventSubscriberTest extends Unit
         $saveAgentSessionEventSubscriber->onInteractiveLogin($event);
     }
 
-    /**
-     * @return void
-     */
     public function testOnInteractiveLoginShouldNotSaveSessionAgentDataWhenUserDoesNotHaveAgentRole(): void
     {
         // Arrange
@@ -149,9 +137,6 @@ class SaveAgentSessionEventSubscriberTest extends Unit
         $saveAgentSessionEventSubscriber->onInteractiveLogin($event);
     }
 
-    /**
-     * @return void
-     */
     public function testOnInteractiveLoginShouldNotSaveSessionAgentDataWhenAgentIsNotFound(): void
     {
         // Arrange
@@ -176,9 +161,6 @@ class SaveAgentSessionEventSubscriberTest extends Unit
         $saveAgentSessionEventSubscriber->onInteractiveLogin($event);
     }
 
-    /**
-     * @return void
-     */
     public function testOnInteractiveLoginShouldNotSaveSessionAgentDataWhenAgentDoesNotHaveId(): void
     {
         // Arrange
@@ -203,9 +185,6 @@ class SaveAgentSessionEventSubscriberTest extends Unit
         $saveAgentSessionEventSubscriber->onInteractiveLogin($event);
     }
 
-    /**
-     * @return void
-     */
     public function testOnInteractiveLoginShouldSaveSessionAgentDataWhenAgentHasId(): void
     {
         // Arrange
@@ -230,9 +209,6 @@ class SaveAgentSessionEventSubscriberTest extends Unit
         $saveAgentSessionEventSubscriber->onInteractiveLogin($event);
     }
 
-    /**
-     * @return void
-     */
     public function testOnInteractiveLoginShouldNotSaveSessionAgentDataWhenAgentHasInactiveStatus(): void
     {
         // Arrange

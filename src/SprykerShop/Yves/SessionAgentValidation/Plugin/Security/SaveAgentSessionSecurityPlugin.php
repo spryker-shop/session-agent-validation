@@ -33,11 +33,6 @@ class SaveAgentSessionSecurityPlugin extends AbstractPlugin implements SecurityP
         return $this->addEventSubscriber($securityBuilder);
     }
 
-    /**
-     * @param \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface $securityBuilder
-     *
-     * @return \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface
-     */
     protected function addEventSubscriber(SecurityBuilderInterface $securityBuilder): SecurityBuilderInterface
     {
         return $securityBuilder->addEventSubscriber(function () {

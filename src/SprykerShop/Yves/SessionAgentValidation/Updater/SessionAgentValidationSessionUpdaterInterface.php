@@ -9,8 +9,5 @@ namespace SprykerShop\Yves\SessionAgentValidation\Updater;
 
 interface SessionAgentValidationSessionUpdaterInterface
 {
-    /**
-     * @return void
-     */
     public function update(): void;
 }

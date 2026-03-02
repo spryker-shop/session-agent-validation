@@ -48,13 +48,6 @@ class SessionAgentValidationSessionUpdater implements SessionAgentValidationSess
      */
     protected SessionAgentValidationConfig $config;
 
-    /**
-     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker
-     * @param \SprykerShop\Yves\SessionAgentValidation\Dependency\Client\SessionAgentValidationToAgentClientInterface $agentClient
-     * @param \SprykerShop\Yves\SessionAgentValidation\Dependency\Client\SessionAgentValidationToSessionClientInterface $sessionClient
-     * @param \SprykerShop\Yves\SessionAgentValidationExtension\Dependency\Plugin\SessionAgentSaverPluginInterface $sessionAgentSaverPlugin
-     * @param \SprykerShop\Yves\SessionAgentValidation\SessionAgentValidationConfig $config
-     */
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
         SessionAgentValidationToAgentClientInterface $agentClient,
@@ -69,9 +62,6 @@ class SessionAgentValidationSessionUpdater implements SessionAgentValidationSess
         $this->config = $config;
     }
 
-    /**
-     * @return void
-     */
     public function update(): void
     {
         if (!$this->isSessionUpdatable()) {
@@ -86,9 +76,6 @@ class SessionAgentValidationSessionUpdater implements SessionAgentValidationSess
         );
     }
 
-    /**
-     * @return bool
-     */
     protected function isSessionUpdatable(): bool
     {
         return $this->authorizationChecker->isGranted(static::ROLE_PREVIOUS_ADMIN)

@@ -48,11 +48,6 @@ class SessionAgentValidationDependencyProvider extends AbstractBundleDependencyP
      */
     public const SERVICE_SECURITY_AUTHORIZATION_CHECKER = 'security.authorization_checker';
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     public function provideDependencies(Container $container): Container
     {
         $container = parent::provideDependencies($container);
@@ -66,11 +61,6 @@ class SessionAgentValidationDependencyProvider extends AbstractBundleDependencyP
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addSessionAgentSaverPlugin(Container $container): Container
     {
         $container->set(static::PLUGIN_SESSION_AGENT_SAVER, function () {
@@ -99,11 +89,6 @@ class SessionAgentValidationDependencyProvider extends AbstractBundleDependencyP
         );
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addSessionAgentValidatorPlugin(Container $container): Container
     {
         $container->set(static::PLUGIN_SESSION_AGENT_VALIDATOR, function () {
@@ -132,11 +117,6 @@ class SessionAgentValidationDependencyProvider extends AbstractBundleDependencyP
         );
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addAgentClient(Container $container): Container
     {
         $container->set(static::CLIENT_AGENT, function (Container $container) {
@@ -148,11 +128,6 @@ class SessionAgentValidationDependencyProvider extends AbstractBundleDependencyP
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addSessionClient(Container $container): Container
     {
         $container->set(static::CLIENT_SESSION, function (Container $container) {
@@ -164,11 +139,6 @@ class SessionAgentValidationDependencyProvider extends AbstractBundleDependencyP
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addSecurityAuthorizationCheckerService(Container $container): Container
     {
         $container->set(static::SERVICE_SECURITY_AUTHORIZATION_CHECKER, function (Container $container) {

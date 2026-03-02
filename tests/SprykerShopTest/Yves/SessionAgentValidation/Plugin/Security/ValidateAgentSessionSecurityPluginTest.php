@@ -80,9 +80,6 @@ class ValidateAgentSessionSecurityPluginTest extends Unit
      */
     protected SessionAgentValidationYvesTester $tester;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -93,9 +90,6 @@ class ValidateAgentSessionSecurityPluginTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testExtendShouldNotExtendFirewallWhenFirewallDoesNotExist(): void
     {
         // Arrange
@@ -108,9 +102,6 @@ class ValidateAgentSessionSecurityPluginTest extends Unit
         $this->assertCount(0, $securityBuilder->getConfiguration()->getFirewalls());
     }
 
-    /**
-     * @return void
-     */
     public function testExtendShouldExtendFirewallsWhenFirewallsExist(): void
     {
         // Arrange
@@ -140,9 +131,6 @@ class ValidateAgentSessionSecurityPluginTest extends Unit
         $this->assertArrayNotHasKey(static::FIREWALL_KEY_CONTEXT, $securityAgentFirewall);
     }
 
-    /**
-     * @return void
-     */
     public function testExtendShouldExtendSecuredFirewallWithContext(): void
     {
         // Arrange
@@ -164,9 +152,6 @@ class ValidateAgentSessionSecurityPluginTest extends Unit
         $this->assertArrayHasKey(static::FIREWALL_KEY_CONTEXT, $firewall);
     }
 
-    /**
-     * @return void
-     */
     public function testExtendShouldExtendContainerWithAuthenticationListenerFactory(): void
     {
         // Arrange
@@ -180,9 +165,6 @@ class ValidateAgentSessionSecurityPluginTest extends Unit
         $this->assertTrue($container->has(static::SECURITY_FACTORY_AGENT_SESSION_VALIDATOR));
     }
 
-    /**
-     * @return void
-     */
     public function testExtendShouldExtendContainerWithAuthenticationListenerPrototype(): void
     {
         // Arrange

@@ -30,9 +30,6 @@ class SaveAgentSessionSecurityPluginTest extends Unit
      */
     protected SessionAgentValidationYvesTester $tester;
 
-    /**
-     * @return void
-     */
     public function testExtendShouldAddEventSubscriber(): void
     {
         // Arrange

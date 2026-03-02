@@ -16,9 +16,6 @@ class SecurityAuthenticationListenerFactoryTypeExpander implements SecurityAuthe
      */
     protected SessionAgentValidationConfig $config;
 
-    /**
-     * @param \SprykerShop\Yves\SessionAgentValidation\SessionAgentValidationConfig $config
-     */
     public function __construct(SessionAgentValidationConfig $config)
     {
         $this->config = $config;

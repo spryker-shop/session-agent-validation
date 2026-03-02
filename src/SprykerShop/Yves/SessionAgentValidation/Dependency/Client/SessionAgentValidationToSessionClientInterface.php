@@ -9,8 +9,5 @@ namespace SprykerShop\Yves\SessionAgentValidation\Dependency\Client;
 
 interface SessionAgentValidationToSessionClientInterface
 {
-    /**
-     * @return string
-     */
     public function getId(): string;
 }

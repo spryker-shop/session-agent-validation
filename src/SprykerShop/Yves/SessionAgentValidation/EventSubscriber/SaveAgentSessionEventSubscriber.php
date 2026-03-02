@@ -51,11 +51,6 @@ class SaveAgentSessionEventSubscriber implements EventSubscriberInterface
      */
     protected SessionAgentValidationConfig $config;
 
-    /**
-     * @param \SprykerShop\Yves\SessionAgentValidation\Dependency\Client\SessionAgentValidationToAgentClientInterface $agentClient
-     * @param \SprykerShop\Yves\SessionAgentValidationExtension\Dependency\Plugin\SessionAgentSaverPluginInterface $sessionAgentSaverPlugin
-     * @param \SprykerShop\Yves\SessionAgentValidation\SessionAgentValidationConfig $config
-     */
     public function __construct(
         SessionAgentValidationToAgentClientInterface $agentClient,
         SessionAgentSaverPluginInterface $sessionAgentSaverPlugin,
@@ -83,32 +78,16 @@ class SaveAgentSessionEventSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param \Symfony\Component\Security\Http\Event\InteractiveLoginEvent $event
-     *
-     * @return void
-     */
     public function onInteractiveLogin(InteractiveLoginEvent $event): void
     {
         $this->saveSession($event->getRequest(), $event->getAuthenticationToken()->getUser());
     }
 
-    /**
-     * @param \Symfony\Component\Security\Http\Event\LoginSuccessEvent $event
-     *
-     * @return void
-     */
     public function onLoginSuccess(LoginSuccessEvent $event): void
     {
         $this->saveSession($event->getRequest(), $event->getUser());
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Symfony\Component\Security\Core\User\UserInterface|null $user
-     *
-     * @return void
-     */
     protected function saveSession(Request $request, ?UserInterface $user): void
     {
         if (!$request->hasSession()) {
@@ -135,21 +114,11 @@ class SaveAgentSessionEventSubscriber implements EventSubscriberInterface
         );
     }
 
-    /**
-     * @param \Symfony\Component\Security\Core\User\UserInterface $user
-     *
-     * @return bool
-     */
     protected function hasAgentRole(UserInterface $user): bool
     {
         return in_array(static::ROLE_AGENT, $user->getRoles(), true);
     }
 
-    /**
-     * @param \Symfony\Component\Security\Core\User\UserInterface $user
-     *
-     * @return string
-     */
     protected function getUserIdentifier(UserInterface $user): string
     {
         if ($this->isSymfonyVersion5() === true) {

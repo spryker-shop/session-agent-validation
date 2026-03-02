@@ -11,10 +11,5 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 interface ValidateAgentSessionListenerInterface
 {
-    /**
-     * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage
-     *
-     * @return void
-     */
     public function setTokenStorage(TokenStorageInterface $tokenStorage): void;
 }

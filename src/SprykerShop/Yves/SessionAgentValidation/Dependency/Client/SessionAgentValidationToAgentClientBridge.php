@@ -24,27 +24,16 @@ class SessionAgentValidationToAgentClientBridge implements SessionAgentValidatio
         $this->agentClient = $agentClient;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\UserTransfer $userTransfer
-     *
-     * @return \Generated\Shared\Transfer\UserTransfer|null
-     */
     public function findAgentByUsername(UserTransfer $userTransfer): ?UserTransfer
     {
         return $this->agentClient->findAgentByUsername($userTransfer);
     }
 
-    /**
-     * @return bool
-     */
     public function isLoggedIn(): bool
     {
         return $this->agentClient->isLoggedIn();
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\UserTransfer
-     */
     public function getAgent(): UserTransfer
     {
         return $this->agentClient->getAgent();

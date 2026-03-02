@@ -22,9 +22,6 @@ class SessionAgentValidationToSessionClientBridge implements SessionAgentValidat
         $this->sessionClient = $sessionClient;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->sessionClient->getId();

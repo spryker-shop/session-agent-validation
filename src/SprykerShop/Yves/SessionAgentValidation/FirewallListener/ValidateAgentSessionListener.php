@@ -46,12 +46,6 @@ class ValidateAgentSessionListener extends AbstractListener implements ValidateA
      */
     protected ?TokenStorageInterface $tokenStorage;
 
-    /**
-     * @param \SprykerShop\Yves\SessionAgentValidation\Dependency\Client\SessionAgentValidationToAgentClientInterface $agentClient
-     * @param \SprykerShop\Yves\SessionAgentValidationExtension\Dependency\Plugin\SessionAgentValidatorPluginInterface $sessionAgentValidatorPlugin
-     * @param \SprykerShop\Yves\SessionAgentValidation\SessionAgentValidationConfig $config
-     * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface|null $tokenStorage
-     */
     public function __construct(
         SessionAgentValidationToAgentClientInterface $agentClient,
         SessionAgentValidatorPluginInterface $sessionAgentValidatorPlugin,
@@ -64,21 +58,11 @@ class ValidateAgentSessionListener extends AbstractListener implements ValidateA
         $this->tokenStorage = $tokenStorage;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return bool|null
-     */
     public function supports(Request $request): ?bool
     {
         return null;
     }
 
-    /**
-     * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
-     *
-     * @return void
-     */
     public function authenticate(RequestEvent $event): void
     {
         if (!$this->agentClient->isLoggedIn()) {
@@ -110,11 +94,6 @@ class ValidateAgentSessionListener extends AbstractListener implements ValidateA
         }
     }
 
-    /**
-     * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage
-     *
-     * @return void
-     */
     public function setTokenStorage(TokenStorageInterface $tokenStorage): void
     {
         $this->tokenStorage = $tokenStorage;

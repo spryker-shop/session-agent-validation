@@ -33,9 +33,6 @@ class ValidateAgentSessionListenerTest extends Unit
      */
     protected SessionAgentValidationYvesTester $tester;
 
-    /**
-     * @return void
-     */
     public function testAuthenticateShouldNotInvalidateSessionWhenAgentIsNotLoggedIn(): void
     {
         // Arrange
@@ -57,9 +54,6 @@ class ValidateAgentSessionListenerTest extends Unit
         $validateAgentSessionListener->authenticate($eventMock);
     }
 
-    /**
-     * @return void
-     */
     public function testAuthenticateShouldNotInvalidateSessionWhenAgentDoesNotHaveId(): void
     {
         // Arrange
@@ -81,9 +75,6 @@ class ValidateAgentSessionListenerTest extends Unit
         $validateAgentSessionListener->authenticate($eventMock);
     }
 
-    /**
-     * @return void
-     */
     public function testAuthenticateShouldNotInvalidateSessionWhenSessionAgentIsValid(): void
     {
         // Arrange
@@ -105,9 +96,6 @@ class ValidateAgentSessionListenerTest extends Unit
         $validateAgentSessionListener->authenticate($eventMock);
     }
 
-    /**
-     * @return void
-     */
     public function testAuthenticateShouldInvalidateSessionWhenSessionAgentIsInvalid(): void
     {
         // Arrange
@@ -129,9 +117,6 @@ class ValidateAgentSessionListenerTest extends Unit
         $validateAgentSessionListener->authenticate($eventMock);
     }
 
-    /**
-     * @return void
-     */
     public function testAuthenticateShouldInvalidateTokenSessionWhenSessionAgentIsInvalid(): void
     {
         // Arrange

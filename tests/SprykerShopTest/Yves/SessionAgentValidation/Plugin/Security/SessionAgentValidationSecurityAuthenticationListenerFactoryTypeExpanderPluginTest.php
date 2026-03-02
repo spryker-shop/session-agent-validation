@@ -41,9 +41,6 @@ class SessionAgentValidationSecurityAuthenticationListenerFactoryTypeExpanderPlu
      */
     protected SessionAgentValidationYvesTester $tester;
 
-    /**
-     * @return void
-     */
     public function testExpandShouldAddEventSubscriber(): void
     {
         // Arrange

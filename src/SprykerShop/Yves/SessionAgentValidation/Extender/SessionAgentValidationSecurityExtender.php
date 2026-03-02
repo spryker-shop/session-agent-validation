@@ -66,10 +66,6 @@ class SessionAgentValidationSecurityExtender implements SessionAgentValidationSe
      */
     protected SessionAgentValidationConfig $config;
 
-    /**
-     * @param \SprykerShop\Yves\SessionAgentValidation\FirewallListener\ValidateAgentSessionListenerInterface $validateAgentSessionListener
-     * @param \SprykerShop\Yves\SessionAgentValidation\SessionAgentValidationConfig $config
-     */
     public function __construct(
         ValidateAgentSessionListenerInterface $validateAgentSessionListener,
         SessionAgentValidationConfig $config
@@ -78,12 +74,6 @@ class SessionAgentValidationSecurityExtender implements SessionAgentValidationSe
         $this->config = $config;
     }
 
-    /**
-     * @param \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface $securityBuilder
-     * @param \Spryker\Service\Container\ContainerInterface $container
-     *
-     * @return \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface
-     */
     public function extend(SecurityBuilderInterface $securityBuilder, ContainerInterface $container): SecurityBuilderInterface
     {
         $this->extendFirewall($securityBuilder);
@@ -94,11 +84,6 @@ class SessionAgentValidationSecurityExtender implements SessionAgentValidationSe
         return $securityBuilder;
     }
 
-    /**
-     * @param \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface $securityBuilder
-     *
-     * @return \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface
-     */
     protected function extendFirewall(SecurityBuilderInterface $securityBuilder): SecurityBuilderInterface
     {
         $securityFirewall = $this->findFirewall($securityBuilder, static::SECURITY_FIREWALL_NAME);
@@ -117,11 +102,6 @@ class SessionAgentValidationSecurityExtender implements SessionAgentValidationSe
         return $securityBuilder->mergeFirewall(static::SECURITY_FIREWALL_NAME, $configuration);
     }
 
-    /**
-     * @param \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface $securityBuilder
-     *
-     * @return \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface
-     */
     protected function extendAgentFirewall(SecurityBuilderInterface $securityBuilder): SecurityBuilderInterface
     {
         $securityFirewall = $this->findFirewall($securityBuilder, static::SECURITY_AGENT_FIREWALL_NAME);
@@ -134,11 +114,6 @@ class SessionAgentValidationSecurityExtender implements SessionAgentValidationSe
         ]);
     }
 
-    /**
-     * @param \Spryker\Service\Container\ContainerInterface $container
-     *
-     * @return \Spryker\Service\Container\ContainerInterface
-     */
     protected function addAuthenticationListenerFactory(ContainerInterface $container): ContainerInterface
     {
         $container->set(
@@ -170,11 +145,6 @@ class SessionAgentValidationSecurityExtender implements SessionAgentValidationSe
         return $container;
     }
 
-    /**
-     * @param \Spryker\Service\Container\ContainerInterface $container
-     *
-     * @return \Spryker\Service\Container\ContainerInterface
-     */
     protected function addAuthenticationListenerPrototype(ContainerInterface $container): ContainerInterface
     {
         $container->set(static::SERVICE_SECURITY_AUTHENTICATION_LISTENER_AGENT_SESSION_VALIDATOR_PROTO, $container->protect(function () use ($container) {

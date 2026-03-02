@@ -29,9 +29,6 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class SessionAgentValidationFactory extends AbstractFactory
 {
-    /**
-     * @return \Symfony\Component\EventDispatcher\EventSubscriberInterface
-     */
     public function createSaveAgentSessionEventSubscriber(): EventSubscriberInterface
     {
         return new SaveAgentSessionEventSubscriber(
@@ -41,9 +38,6 @@ class SessionAgentValidationFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \SprykerShop\Yves\SessionAgentValidation\FirewallListener\ValidateAgentSessionListenerInterface
-     */
     public function createValidateAgentSessionListener(): ValidateAgentSessionListenerInterface
     {
         return new ValidateAgentSessionListener(
@@ -53,9 +47,6 @@ class SessionAgentValidationFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \SprykerShop\Yves\SessionAgentValidation\Extender\SessionAgentValidationSecurityExtenderInterface
-     */
     public function createSessionAgentValidationSecurityExtender(): SessionAgentValidationSecurityExtenderInterface
     {
         return new SessionAgentValidationSecurityExtender(
@@ -64,9 +55,6 @@ class SessionAgentValidationFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \SprykerShop\Yves\SessionAgentValidation\Updater\SessionAgentValidationSessionUpdaterInterface
-     */
     public function createSessionAgentValidationSessionUpdater(): SessionAgentValidationSessionUpdaterInterface
     {
         return new SessionAgentValidationSessionUpdater(
@@ -78,49 +66,31 @@ class SessionAgentValidationFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \SprykerShop\Yves\SessionAgentValidation\Expander\SecurityAuthenticationListenerFactoryTypeExpanderInterface
-     */
     public function createSecurityAuthenticationListenerFactoryTypeExpander(): SecurityAuthenticationListenerFactoryTypeExpanderInterface
     {
         return new SecurityAuthenticationListenerFactoryTypeExpander($this->getConfig());
     }
 
-    /**
-     * @return \SprykerShop\Yves\SessionAgentValidationExtension\Dependency\Plugin\SessionAgentSaverPluginInterface
-     */
     public function getSessionAgentSaverPlugin(): SessionAgentSaverPluginInterface
     {
         return $this->getProvidedDependency(SessionAgentValidationDependencyProvider::PLUGIN_SESSION_AGENT_SAVER);
     }
 
-    /**
-     * @return \SprykerShop\Yves\SessionAgentValidationExtension\Dependency\Plugin\SessionAgentValidatorPluginInterface
-     */
     public function getSessionAgentValidatorPlugin(): SessionAgentValidatorPluginInterface
     {
         return $this->getProvidedDependency(SessionAgentValidationDependencyProvider::PLUGIN_SESSION_AGENT_VALIDATOR);
     }
 
-    /**
-     * @return \SprykerShop\Yves\SessionAgentValidation\Dependency\Client\SessionAgentValidationToAgentClientInterface
-     */
     public function getAgentClient(): SessionAgentValidationToAgentClientInterface
     {
         return $this->getProvidedDependency(SessionAgentValidationDependencyProvider::CLIENT_AGENT);
     }
 
-    /**
-     * @return \SprykerShop\Yves\SessionAgentValidation\Dependency\Client\SessionAgentValidationToSessionClientInterface
-     */
     public function getSessionClient(): SessionAgentValidationToSessionClientInterface
     {
         return $this->getProvidedDependency(SessionAgentValidationDependencyProvider::CLIENT_SESSION);
     }
 
-    /**
-     * @return \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
-     */
     public function getSecurityAuthorizationChecker(): AuthorizationCheckerInterface
     {
         return $this->getProvidedDependency(SessionAgentValidationDependencyProvider::SERVICE_SECURITY_AUTHORIZATION_CHECKER);
