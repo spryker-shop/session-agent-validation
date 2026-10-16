@@ -26,24 +26,12 @@ class ValidateAgentSessionListener extends AbstractListener implements ValidateA
      */
     protected const LOGIN_PATH = '/agent/login';
 
-    /**
-     * @var \SprykerShop\Yves\SessionAgentValidation\Dependency\Client\SessionAgentValidationToAgentClientInterface
-     */
     protected SessionAgentValidationToAgentClientInterface $agentClient;
 
-    /**
-     * @var \SprykerShop\Yves\SessionAgentValidation\SessionAgentValidationConfig
-     */
     protected SessionAgentValidationConfig $config;
 
-    /**
-     * @var \SprykerShop\Yves\SessionAgentValidationExtension\Dependency\Plugin\SessionAgentValidatorPluginInterface
-     */
     protected SessionAgentValidatorPluginInterface $sessionAgentValidatorPlugin;
 
-    /**
-     * @var \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface|null
-     */
     protected ?TokenStorageInterface $tokenStorage;
 
     public function __construct(

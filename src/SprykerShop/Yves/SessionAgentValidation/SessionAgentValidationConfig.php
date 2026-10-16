@@ -23,8 +23,6 @@ class SessionAgentValidationConfig extends AbstractBundleConfig
 
     /**
      * @api
-     *
-     * @return string
      */
     public function getSessionEntityType(): string
     {
@@ -33,8 +31,6 @@ class SessionAgentValidationConfig extends AbstractBundleConfig
 
     /**
      * @api
-     *
-     * @return string
      */
     public function getAuthenticationListenerFactoryType(): string
     {

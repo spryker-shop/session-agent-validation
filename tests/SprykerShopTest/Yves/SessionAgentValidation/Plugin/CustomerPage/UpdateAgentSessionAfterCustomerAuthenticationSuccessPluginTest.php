@@ -8,6 +8,7 @@
 namespace SprykerShopTest\Yves\SessionAgentValidation\Plugin\CustomerPage;
 
 use Codeception\Test\Unit;
+use Generated\Shared\Transfer\SessionEntityRequestTransfer;
 use Generated\Shared\Transfer\UserTransfer;
 use SprykerShop\Yves\SessionAgentValidation\Dependency\Client\SessionAgentValidationToAgentClientInterface;
 use SprykerShop\Yves\SessionAgentValidation\Dependency\Client\SessionAgentValidationToSessionClientInterface;
@@ -30,18 +31,19 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class UpdateAgentSessionAfterCustomerAuthenticationSuccessPluginTest extends Unit
 {
-    /**
-     * @var \SprykerShopTest\Yves\SessionAgentValidation\SessionAgentValidationYvesTester
-     */
+    protected const int ID_AGENT = 1;
+
+    protected const string ID_SESSION = '1';
+
     protected SessionAgentValidationYvesTester $tester;
 
     public function testExecuteShouldNotUpdateSessionAgentDataWhenAuthorizationIsNotGranted(): void
     {
         // Arrange
-        $sessionAgentSaverPluginMock = $this->tester->createSessionAgentSaverPluginMock();
+        $sessionAgentSaverPluginMock = $this->createSessionAgentSaverPluginMock();
         $this->addDependencies(
             $this->createAuthorizationCheckerMock(),
-            $this->tester->createAgentClientMock(),
+            $this->tester->createAgentClientMock((new UserTransfer())->setIdUser(static::ID_AGENT)),
             $sessionAgentSaverPluginMock,
         );
 
@@ -58,7 +60,7 @@ class UpdateAgentSessionAfterCustomerAuthenticationSuccessPluginTest extends Uni
     public function testExecuteShouldNotUpdateSessionAgentDataWhenAgentIsNotLoggedIn(): void
     {
         // Arrange
-        $sessionAgentSaverPluginMock = $this->tester->createSessionAgentSaverPluginMock();
+        $sessionAgentSaverPluginMock = $this->createSessionAgentSaverPluginMock();
 
         $this->addDependencies(
             $this->createAuthorizationCheckerMock(true),
@@ -79,11 +81,11 @@ class UpdateAgentSessionAfterCustomerAuthenticationSuccessPluginTest extends Uni
     public function testExecuteShouldUpdateSessionAgentDataWhenAuthorizationIsGrantedAndAgentIsLoggedIn(): void
     {
         // Arrange
-        $sessionAgentSaverPluginMock = $this->tester->createSessionAgentSaverPluginMock();
+        $sessionAgentSaverPluginMock = $this->createSessionAgentSaverPluginMock();
 
         $this->addDependencies(
             $this->createAuthorizationCheckerMock(true),
-            $this->tester->createAgentClientMock((new UserTransfer())->setIdUser(1)),
+            $this->tester->createAgentClientMock((new UserTransfer())->setIdUser(static::ID_AGENT)),
             $sessionAgentSaverPluginMock,
         );
 
@@ -91,15 +93,25 @@ class UpdateAgentSessionAfterCustomerAuthenticationSuccessPluginTest extends Uni
 
         // Assert
         $sessionAgentSaverPluginMock->expects($this->once())
-            ->method('saveSession');
+            ->method('saveSession')
+            ->with($this->callback(function (SessionEntityRequestTransfer $sessionEntityRequestTransfer): bool {
+                return $sessionEntityRequestTransfer->getIdEntity() === static::ID_AGENT
+                    && $sessionEntityRequestTransfer->getIdSession() === static::ID_SESSION;
+            }));
 
         // Act
         $updateAgentSessionAfterCustomerAuthenticationSuccessPlugin->execute();
     }
 
     /**
-     * @param bool $isGranted
-     *
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerShop\Yves\SessionAgentValidationExtension\Dependency\Plugin\SessionAgentSaverPluginInterface
+     */
+    protected function createSessionAgentSaverPluginMock(): SessionAgentSaverPluginInterface
+    {
+        return $this->createMock(SessionAgentSaverPluginInterface::class);
+    }
+
+    /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
      */
     protected function createAuthorizationCheckerMock(bool $isGranted = false): AuthorizationCheckerInterface
@@ -122,7 +134,7 @@ class UpdateAgentSessionAfterCustomerAuthenticationSuccessPluginTest extends Uni
             ->getMock();
 
         $sessionClientMock->method('getId')
-            ->willReturn('1');
+            ->willReturn(static::ID_SESSION);
 
         return $sessionClientMock;
     }
@@ -131,8 +143,6 @@ class UpdateAgentSessionAfterCustomerAuthenticationSuccessPluginTest extends Uni
      * @param \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker
      * @param \PHPUnit\Framework\MockObject\MockObject|\SprykerShop\Yves\SessionAgentValidation\Dependency\Client\SessionAgentValidationToAgentClientInterface $agentClient
      * @param \PHPUnit\Framework\MockObject\MockObject|\SprykerShop\Yves\SessionAgentValidationExtension\Dependency\Plugin\SessionAgentSaverPluginInterface $sessionAgentSaverPluginMock
-     *
-     * @return void
      */
     protected function addDependencies(
         AuthorizationCheckerInterface $authorizationChecker,

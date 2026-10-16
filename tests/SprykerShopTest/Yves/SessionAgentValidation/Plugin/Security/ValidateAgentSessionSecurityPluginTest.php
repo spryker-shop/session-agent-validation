@@ -75,9 +75,6 @@ class ValidateAgentSessionSecurityPluginTest extends Unit
      */
     protected const SERVICE_SECURITY_AUTHENTICATION_LISTENER_AGENT_SESSION_VALIDATOR_PROTO = 'security.authentication_listener.agent_session_validator._proto';
 
-    /**
-     * @var \SprykerShopTest\Yves\SessionAgentValidation\SessionAgentValidationYvesTester
-     */
     protected SessionAgentValidationYvesTester $tester;
 
     protected function setUp(): void

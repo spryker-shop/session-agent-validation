@@ -23,29 +23,14 @@ class SessionAgentValidationSessionUpdater implements SessionAgentValidationSess
      */
     protected const ROLE_PREVIOUS_ADMIN = 'ROLE_PREVIOUS_ADMIN';
 
-    /**
-     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
-     */
     protected AuthorizationCheckerInterface $authorizationChecker;
 
-    /**
-     * @var \SprykerShop\Yves\SessionAgentValidation\Dependency\Client\SessionAgentValidationToAgentClientInterface
-     */
     protected SessionAgentValidationToAgentClientInterface $agentClient;
 
-    /**
-     * @var \SprykerShop\Yves\SessionAgentValidation\Dependency\Client\SessionAgentValidationToSessionClientInterface
-     */
     protected SessionAgentValidationToSessionClientInterface $sessionClient;
 
-    /**
-     * @var \SprykerShop\Yves\SessionAgentValidationExtension\Dependency\Plugin\SessionAgentSaverPluginInterface
-     */
     protected SessionAgentSaverPluginInterface $sessionAgentSaverPlugin;
 
-    /**
-     * @var \SprykerShop\Yves\SessionAgentValidation\SessionAgentValidationConfig
-     */
     protected SessionAgentValidationConfig $config;
 
     public function __construct(

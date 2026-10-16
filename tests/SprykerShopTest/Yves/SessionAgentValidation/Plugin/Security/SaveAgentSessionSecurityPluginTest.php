@@ -25,9 +25,6 @@ use SprykerShopTest\Yves\SessionAgentValidation\SessionAgentValidationYvesTester
  */
 class SaveAgentSessionSecurityPluginTest extends Unit
 {
-    /**
-     * @var \SprykerShopTest\Yves\SessionAgentValidation\SessionAgentValidationYvesTester
-     */
     protected SessionAgentValidationYvesTester $tester;
 
     public function testExtendShouldAddEventSubscriber(): void

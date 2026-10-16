@@ -48,6 +48,11 @@ class SessionAgentValidationDependencyProvider extends AbstractBundleDependencyP
      */
     public const SERVICE_SECURITY_AUTHORIZATION_CHECKER = 'security.authorization_checker';
 
+    /**
+     * @uses \Spryker\Yves\Http\Plugin\Application\HttpApplicationPlugin::SERVICE_REQUEST_STACK
+     */
+    public const string SERVICE_REQUEST_STACK = 'request_stack';
+
     public function provideDependencies(Container $container): Container
     {
         $container = parent::provideDependencies($container);
@@ -57,6 +62,7 @@ class SessionAgentValidationDependencyProvider extends AbstractBundleDependencyP
         $container = $this->addAgentClient($container);
         $container = $this->addSessionClient($container);
         $container = $this->addSecurityAuthorizationCheckerService($container);
+        $container = $this->addRequestStackService($container);
 
         return $container;
     }
@@ -72,8 +78,6 @@ class SessionAgentValidationDependencyProvider extends AbstractBundleDependencyP
 
     /**
      * @throws \SprykerShop\Yves\SessionAgentValidation\Exception\MissingSessionAgentSaverPluginException
-     *
-     * @return \SprykerShop\Yves\SessionAgentValidationExtension\Dependency\Plugin\SessionAgentSaverPluginInterface
      */
     protected function getSessionAgentSaverPlugin(): SessionAgentSaverPluginInterface
     {
@@ -100,8 +104,6 @@ class SessionAgentValidationDependencyProvider extends AbstractBundleDependencyP
 
     /**
      * @throws \SprykerShop\Yves\SessionAgentValidation\Exception\MissingSessionAgentValidatorPluginException
-     *
-     * @return \SprykerShop\Yves\SessionAgentValidationExtension\Dependency\Plugin\SessionAgentValidatorPluginInterface
      */
     protected function getSessionAgentValidatorPlugin(): SessionAgentValidatorPluginInterface
     {
@@ -143,6 +145,15 @@ class SessionAgentValidationDependencyProvider extends AbstractBundleDependencyP
     {
         $container->set(static::SERVICE_SECURITY_AUTHORIZATION_CHECKER, function (Container $container) {
             return $container->getApplicationService(static::SERVICE_SECURITY_AUTHORIZATION_CHECKER);
+        });
+
+        return $container;
+    }
+
+    protected function addRequestStackService(Container $container): Container
+    {
+        $container->set(static::SERVICE_REQUEST_STACK, function (Container $container) {
+            return $container->getApplicationService(static::SERVICE_REQUEST_STACK);
         });
 
         return $container;

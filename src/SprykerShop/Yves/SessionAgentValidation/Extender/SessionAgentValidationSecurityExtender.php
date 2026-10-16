@@ -56,14 +56,8 @@ class SessionAgentValidationSecurityExtender implements SessionAgentValidationSe
      */
     protected const FIREWALL_KEY_CONTEXT = 'context';
 
-    /**
-     * @var \SprykerShop\Yves\SessionAgentValidation\FirewallListener\ValidateAgentSessionListenerInterface
-     */
     protected ValidateAgentSessionListenerInterface $validateAgentSessionListener;
 
-    /**
-     * @var \SprykerShop\Yves\SessionAgentValidation\SessionAgentValidationConfig
-     */
     protected SessionAgentValidationConfig $config;
 
     public function __construct(
@@ -159,9 +153,6 @@ class SessionAgentValidationSecurityExtender implements SessionAgentValidationSe
     }
 
     /**
-     * @param \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface $securityBuilder
-     * @param string $firewallName
-     *
      * @return array<string, mixed>|null
      */
     protected function findFirewall(SecurityBuilderInterface $securityBuilder, string $firewallName): ?array
@@ -177,8 +168,6 @@ class SessionAgentValidationSecurityExtender implements SessionAgentValidationSe
 
     /**
      * @deprecated Shim for Symfony Security Core 5.x, to be removed when Symfony Security Core dependency becomes 6.x+.
-     *
-     * @return bool
      */
     protected function isSymfonyVersion5(): bool
     {

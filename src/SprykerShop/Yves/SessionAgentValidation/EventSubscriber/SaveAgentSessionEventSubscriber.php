@@ -15,10 +15,13 @@ use SprykerShop\Yves\SessionAgentValidationExtension\Dependency\Plugin\SessionAg
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager;
+use Symfony\Component\Security\Core\Authentication\Token\SwitchUserToken;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
+use Symfony\Component\Security\Http\Event\SwitchUserEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
+use Symfony\Component\Security\Http\Session\SessionAuthenticationStrategyInterface;
 
 class SaveAgentSessionEventSubscriber implements EventSubscriberInterface
 {
@@ -36,33 +39,31 @@ class SaveAgentSessionEventSubscriber implements EventSubscriberInterface
      */
     protected const COL_STATUS_ACTIVE = 'active';
 
-    /**
-     * @var \SprykerShop\Yves\SessionAgentValidation\Dependency\Client\SessionAgentValidationToAgentClientInterface
-     */
+    // Runs before AgentPage's switch-user subscriber, which saves the impersonated customer's session ID at the default priority.
+    protected const int SWITCH_USER_EVENT_PRIORITY = 128;
+
     protected SessionAgentValidationToAgentClientInterface $agentClient;
 
-    /**
-     * @var \SprykerShop\Yves\SessionAgentValidationExtension\Dependency\Plugin\SessionAgentSaverPluginInterface
-     */
     protected SessionAgentSaverPluginInterface $sessionAgentSaverPlugin;
 
-    /**
-     * @var \SprykerShop\Yves\SessionAgentValidation\SessionAgentValidationConfig
-     */
     protected SessionAgentValidationConfig $config;
+
+    protected SessionAuthenticationStrategyInterface $sessionAuthenticationStrategy;
 
     public function __construct(
         SessionAgentValidationToAgentClientInterface $agentClient,
         SessionAgentSaverPluginInterface $sessionAgentSaverPlugin,
-        SessionAgentValidationConfig $config
+        SessionAgentValidationConfig $config,
+        SessionAuthenticationStrategyInterface $sessionAuthenticationStrategy
     ) {
         $this->agentClient = $agentClient;
         $this->sessionAgentSaverPlugin = $sessionAgentSaverPlugin;
         $this->config = $config;
+        $this->sessionAuthenticationStrategy = $sessionAuthenticationStrategy;
     }
 
     /**
-     * @return array<string, string>
+     * @return array<string, string|array<int, int|string>>
      */
     public static function getSubscribedEvents(): array
     {
@@ -75,6 +76,7 @@ class SaveAgentSessionEventSubscriber implements EventSubscriberInterface
 
         return [
             LoginSuccessEvent::class => 'onLoginSuccess',
+            SecurityEvents::SWITCH_USER => ['onSwitchUser', static::SWITCH_USER_EVENT_PRIORITY],
         ];
     }
 
@@ -86,6 +88,30 @@ class SaveAgentSessionEventSubscriber implements EventSubscriberInterface
     public function onLoginSuccess(LoginSuccessEvent $event): void
     {
         $this->saveSession($event->getRequest(), $event->getUser());
+    }
+
+    public function onSwitchUser(SwitchUserEvent $switchUserEvent): void
+    {
+        $agentUser = $this->getAgentUser($switchUserEvent);
+
+        if (!$agentUser instanceof UserInterface || !$this->hasAgentRole($agentUser)) {
+            return;
+        }
+
+        $this->regenerateSession($switchUserEvent);
+        $this->saveSession($switchUserEvent->getRequest(), $agentUser);
+    }
+
+    protected function regenerateSession(SwitchUserEvent $switchUserEvent): void
+    {
+        $request = $switchUserEvent->getRequest();
+        $token = $switchUserEvent->getToken();
+
+        if ($token === null || !$request->hasPreviousSession()) {
+            return;
+        }
+
+        $this->sessionAuthenticationStrategy->onAuthentication($request, $token);
     }
 
     protected function saveSession(Request $request, ?UserInterface $user): void
@@ -114,6 +140,17 @@ class SaveAgentSessionEventSubscriber implements EventSubscriberInterface
         );
     }
 
+    protected function getAgentUser(SwitchUserEvent $switchUserEvent): ?UserInterface
+    {
+        $token = $switchUserEvent->getToken();
+
+        if ($token instanceof SwitchUserToken) {
+            return $token->getOriginalToken()->getUser();
+        }
+
+        return $switchUserEvent->getTargetUser();
+    }
+
     protected function hasAgentRole(UserInterface $user): bool
     {
         return in_array(static::ROLE_AGENT, $user->getRoles(), true);
@@ -130,8 +167,6 @@ class SaveAgentSessionEventSubscriber implements EventSubscriberInterface
 
     /**
      * @deprecated Shim for Symfony Security Core 5.x, to be removed when Symfony Security Core dependency becomes 6.x+.
-     *
-     * @return bool
      */
     protected function isSymfonyVersion5(): bool
     {

@@ -11,9 +11,6 @@ use SprykerShop\Yves\SessionAgentValidation\SessionAgentValidationConfig;
 
 class SecurityAuthenticationListenerFactoryTypeExpander implements SecurityAuthenticationListenerFactoryTypeExpanderInterface
 {
-    /**
-     * @var \SprykerShop\Yves\SessionAgentValidation\SessionAgentValidationConfig
-     */
     protected SessionAgentValidationConfig $config;
 
     public function __construct(SessionAgentValidationConfig $config)

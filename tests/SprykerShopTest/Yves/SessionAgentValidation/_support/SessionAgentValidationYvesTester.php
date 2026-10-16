@@ -13,7 +13,6 @@ use Generated\Shared\Transfer\SessionEntityResponseTransfer;
 use Generated\Shared\Transfer\UserTransfer;
 use SprykerShop\Yves\SessionAgentValidation\Dependency\Client\SessionAgentValidationToAgentClientInterface;
 use SprykerShop\Yves\SessionAgentValidation\SessionAgentValidationConfig;
-use SprykerShop\Yves\SessionAgentValidationExtension\Dependency\Plugin\SessionAgentSaverPluginInterface;
 use SprykerShop\Yves\SessionAgentValidationExtension\Dependency\Plugin\SessionAgentValidatorPluginInterface;
 
 /**
@@ -42,8 +41,6 @@ class SessionAgentValidationYvesTester extends Actor
     protected const SESSION_ENTITY_TYPE = 'agent';
 
     /**
-     * @param \Generated\Shared\Transfer\UserTransfer|null $userTransfer
-     *
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerShop\Yves\SessionAgentValidation\Dependency\Client\SessionAgentValidationToAgentClientInterface
      */
     public function createAgentClientMock(?UserTransfer $userTransfer = null): SessionAgentValidationToAgentClientInterface
@@ -59,16 +56,6 @@ class SessionAgentValidationYvesTester extends Actor
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerShop\Yves\SessionAgentValidationExtension\Dependency\Plugin\SessionAgentSaverPluginInterface
-     */
-    public function createSessionAgentSaverPluginMock(): SessionAgentSaverPluginInterface
-    {
-        return Stub::makeEmpty(SessionAgentSaverPluginInterface::class);
-    }
-
-    /**
-     * @param bool $isSessionValid
-     *
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerShop\Yves\SessionAgentValidationExtension\Dependency\Plugin\SessionAgentValidatorPluginInterface
      */
     public function createSessionAgentValidatorPluginMock(bool $isSessionValid = false): SessionAgentValidatorPluginInterface

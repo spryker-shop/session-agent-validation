@@ -28,9 +28,6 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class ValidateAgentSessionListenerTest extends Unit
 {
-    /**
-     * @var \SprykerShopTest\Yves\SessionAgentValidation\SessionAgentValidationYvesTester
-     */
     protected SessionAgentValidationYvesTester $tester;
 
     public function testAuthenticateShouldNotInvalidateSessionWhenAgentIsNotLoggedIn(): void

@@ -22,7 +22,12 @@ use SprykerShop\Yves\SessionAgentValidation\Updater\SessionAgentValidationSessio
 use SprykerShop\Yves\SessionAgentValidationExtension\Dependency\Plugin\SessionAgentSaverPluginInterface;
 use SprykerShop\Yves\SessionAgentValidationExtension\Dependency\Plugin\SessionAgentValidatorPluginInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Csrf\TokenStorage\ClearableTokenStorageInterface;
+use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
+use Symfony\Component\Security\Http\Session\SessionAuthenticationStrategy;
+use Symfony\Component\Security\Http\Session\SessionAuthenticationStrategyInterface;
 
 /**
  * @method \SprykerShop\Yves\SessionAgentValidation\SessionAgentValidationConfig getConfig()
@@ -35,7 +40,21 @@ class SessionAgentValidationFactory extends AbstractFactory
             $this->getAgentClient(),
             $this->getSessionAgentSaverPlugin(),
             $this->getConfig(),
+            $this->createSessionAuthenticationStrategy(),
         );
+    }
+
+    public function createSessionAuthenticationStrategy(): SessionAuthenticationStrategyInterface
+    {
+        return new SessionAuthenticationStrategy(
+            SessionAuthenticationStrategy::MIGRATE,
+            $this->createCsrfTokenStorage(),
+        );
+    }
+
+    public function createCsrfTokenStorage(): ClearableTokenStorageInterface
+    {
+        return new SessionTokenStorage($this->getRequestStack());
     }
 
     public function createValidateAgentSessionListener(): ValidateAgentSessionListenerInterface
@@ -94,5 +113,10 @@ class SessionAgentValidationFactory extends AbstractFactory
     public function getSecurityAuthorizationChecker(): AuthorizationCheckerInterface
     {
         return $this->getProvidedDependency(SessionAgentValidationDependencyProvider::SERVICE_SECURITY_AUTHORIZATION_CHECKER);
+    }
+
+    public function getRequestStack(): RequestStack
+    {
+        return $this->getProvidedDependency(SessionAgentValidationDependencyProvider::SERVICE_REQUEST_STACK);
     }
 }

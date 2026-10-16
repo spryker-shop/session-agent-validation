@@ -36,9 +36,6 @@ class SessionAgentValidationSecurityAuthenticationListenerFactoryTypeExpanderPlu
      */
     protected const AUTHENTICATION_LISTENER_FACTORY_TYPE = 'agent_session_validator';
 
-    /**
-     * @var \SprykerShopTest\Yves\SessionAgentValidation\SessionAgentValidationYvesTester
-     */
     protected SessionAgentValidationYvesTester $tester;
 
     public function testExpandShouldAddEventSubscriber(): void
